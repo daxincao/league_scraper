@@ -21,10 +21,12 @@ class participantValues(gameValues):
     def __init__(self, matchdata, id):
         self.participantId = id
         self.summonerName = self.get_participant_summonerName(matchdata)
+        self.teamId = self.get_participant_teamId(matchdata)
         self.participantValues = self.get_participant_values(matchdata)
 
+
     def get_participant_summonerName(self, matchdata):
-        return str(matchdata['participantIdentities'][self.participantId -1]['player']['summonerName'])
+        return str(matchdata['participantIdentities'][self.participantId - 1]['player']['summonerName'])
 
     def get_participant_values(self, matchdata):
 
@@ -39,16 +41,20 @@ class participantValues(gameValues):
                     'deaths',
                     'assists'
                     ]
-        values = [matchdata['participants'][self.participantId -1]['stats'][x] for x in colnames]
+        values = [matchdata['participants'][self.participantId - 1]['stats'][x] for x in colnames]
 
         # Create dictionary from mapping
-        d = dict(zip(colnames,values))
+        d = dict(zip(colnames, values))
         d['participantId'] = self.participantId
         d['summonerName'] = self.summonerName # Add participantId mapping
+        d['teamId'] = self.teamId # Add teamId
         return d
 
+    def get_participant_teamId(self, matchdata):
+        return matchdata['participants'][self.participantId-1]['teamId']
 
-# Defines a class for pulling timeline data for each player given their partcipantId as input
+
+# Defines a class for pulling timeline data for each player given their participantId as input
 
 class participantTimelines(object):
     
@@ -126,7 +132,7 @@ class participantTimelines(object):
             kda.append(self.get_frame_KDA(frame))
 
         kda_df = pd.DataFrame(kda)
-        kda_df2 = kda_df[['kill','assist','death']]
+        kda_df2 = kda_df[['kill', 'assist', 'death']]
         t =  kda_df[['timestamp']]
 
         # Create cumulative df
@@ -160,14 +166,26 @@ class eventScraper(object):
         return [event for frame in self.frames for event in frame['events']]
 
     def getMonsterKills(self):
-        keep_columns = [ 'timestamp','type','monsterType', 'summonerName', 'position']
+        keep_columns = [ 'timestamp','type','monsterType', 'summonerName', 'teamId', 'position']
         monsterKills = pd.DataFrame([i for i in self.events if i['type']=='ELITE_MONSTER_KILL'])
+
+        # Join MonsterKills with summonerName and teamId
         return pd.merge(monsterKills, self.stats, left_on='killerId', right_on='participantId', how='left')[keep_columns].sort('timestamp')
 
     def getBuildingKills(self):
-        keep_columns = ['timestamp','type','towerType','laneType','summonerName', 'teamId', 'position']
+        keep_columns = ['timestamp', 'type', 'towerType', 'laneType', 'summonerName', 'teamId', 'position']
         buildingKills = pd.DataFrame([i for i in self.events if i['type'] == 'BUILDING_KILL'])
-        return pd.merge(buildingKills, self.stats, left_on = 'killerId', right_on='participantId', how='left')[keep_columns].sort('timestamp')
+
+        # Create lookup frame to avoid duplicate columns names
+        lookup_frame = self.stats[['participantId', 'summonerName']]
+
+        # Join events with summoner names
+        return pd.merge(
+            left=buildingKills,
+            right=lookup_frame,
+            left_on='killerId',
+            right_on='participantId',
+            how='left')[keep_columns].sort('timestamp')
 
     def getChampionKills(self):
         keep_columns = ['timestamp','type']
@@ -175,48 +193,6 @@ class eventScraper(object):
 
 
 
-# Test class
-
-test = eventScraper(timeline_data, match_data)
-
-print test.buildingKills
-print test.monsterKills
-
-pd.concat([test.buildingKills, test.monsterKills])[test.buildingKills.columns.append(test.monsterKills.columns)]
-
-import numpy as np
-a = pd.DataFrame(np.random.randn(10, 4), columns=['a','b','c','d'])
-b = pd.DataFrame(np.random.randn(5,3), columns=['a','c','e'])
-
-pd.concat([a,b])
-
-
-
-monsterKills = pd.DataFrame([i for i in test.events if i['type']=='ELITE_MONSTER_KILL'])
-
-print list(monsterKills.columns)
-
-lookup_Id(monsterKills, 'killerId', stats_full)
-
-pd.merge(monsterKills, stats_full, left_on='killerId', right_on='participantId', how = 'left')[['timestamp','monsterType','killerId','summonerName']].sort('timestamp')
-pd.DataFrame(monsterKills)
-for m in monsterKills:
-    print m
-
-
-championKills = [i for i in test.events if i['type'] == 'CHAMPION_KILL']
-
-for b in championKills:
-    print b
-'killerId'
-'towerType'
-'laneType'
-'assistingParticipantIds'
-'timestamp'
-
-set(event['type'] for event in test.events)
-
-test.frames[1]['events']
 
 if __name__ == '__main__':
 
@@ -255,3 +231,39 @@ if __name__ == '__main__':
     timeline_full =  pd.merge(left=p1_timeline_data_gold,right=p1_timeline_data_kda,on='timestamp')
 
     timeline_full.to_csv('sample_timeline.csv', sep=';')
+
+
+    # Test class
+
+    test = eventScraper(timeline_data, match_data)
+
+    print test.buildingKills
+    print test.monsterKills
+
+    pd.concat([test.buildingKills, test.monsterKills]).sort('timestamp')
+
+
+
+    monsterKills = pd.DataFrame([i for i in test.events if i['type']=='ELITE_MONSTER_KILL'])
+
+    print list(monsterKills.columns)
+
+    pd.merge(monsterKills, stats_full, left_on='killerId', right_on='participantId', how = 'left')[['timestamp','monsterType','killerId','summonerName']].sort('timestamp')
+    pd.DataFrame(monsterKills)
+    for m in monsterKills:
+        print m
+
+
+    championKills = [i for i in test.events if i['type'] == 'CHAMPION_KILL']
+
+    for b in championKills:
+        print b
+    'killerId'
+    'towerType'
+    'laneType'
+    'assistingParticipantIds'
+    'timestamp'
+
+    set(event['type'] for event in test.events)
+
+    test.frames[1]['events']
