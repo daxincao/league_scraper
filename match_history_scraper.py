@@ -142,12 +142,87 @@ def participant_stats_full(matchData):
     return pd.DataFrame([participantValues(matchData, i).participantValues for i in range(1,11)])
 
 
+# Class for scraping all event objects in timeline data
+class eventScraper(object):
+
+    def __init__(self, timeLine, match_info):
+        self.frames = self.getFrames(timeLine)
+        self.stats = participant_stats_full(match_info)
+        self.events = self.getEvents()
+        self.monsterKills = self.getMonsterKills()
+        self.buildingKills = self.getBuildingKills()
+
+
+    def getFrames(self, timeLine):
+        return timeLine['frames']
+
+    def getEvents(self):
+        return [event for frame in self.frames for event in frame['events']]
+
+    def getMonsterKills(self):
+        keep_columns = [ 'timestamp','type','monsterType', 'summonerName', 'position']
+        monsterKills = pd.DataFrame([i for i in self.events if i['type']=='ELITE_MONSTER_KILL'])
+        return pd.merge(monsterKills, self.stats, left_on='killerId', right_on='participantId', how='left')[keep_columns].sort('timestamp')
+
+    def getBuildingKills(self):
+        keep_columns = ['timestamp','type','towerType','laneType','summonerName', 'teamId', 'position']
+        buildingKills = pd.DataFrame([i for i in self.events if i['type'] == 'BUILDING_KILL'])
+        return pd.merge(buildingKills, self.stats, left_on = 'killerId', right_on='participantId', how='left')[keep_columns].sort('timestamp')
+
+    def getChampionKills(self):
+        keep_columns = ['timestamp','type']
+        buildingKills = pd.DataFrame([i for i in self.events if i['type'] == 'CHAMPION_KILL'])
+
+
+
+# Test class
+
+test = eventScraper(timeline_data, match_data)
+
+print test.buildingKills
+print test.monsterKills
+
+pd.concat([test.buildingKills, test.monsterKills])[test.buildingKills.columns.append(test.monsterKills.columns)]
+
+import numpy as np
+a = pd.DataFrame(np.random.randn(10, 4), columns=['a','b','c','d'])
+b = pd.DataFrame(np.random.randn(5,3), columns=['a','c','e'])
+
+pd.concat([a,b])
+
+
+
+monsterKills = pd.DataFrame([i for i in test.events if i['type']=='ELITE_MONSTER_KILL'])
+
+print list(monsterKills.columns)
+
+lookup_Id(monsterKills, 'killerId', stats_full)
+
+pd.merge(monsterKills, stats_full, left_on='killerId', right_on='participantId', how = 'left')[['timestamp','monsterType','killerId','summonerName']].sort('timestamp')
+pd.DataFrame(monsterKills)
+for m in monsterKills:
+    print m
+
+
+championKills = [i for i in test.events if i['type'] == 'CHAMPION_KILL']
+
+for b in championKills:
+    print b
+'killerId'
+'towerType'
+'laneType'
+'assistingParticipantIds'
+'timestamp'
+
+set(event['type'] for event in test.events)
+
+test.frames[1]['events']
 
 if __name__ == '__main__':
 
-    timeline_url = 'https://acs.leagueoflegends.com/v1/stats/game/TRLH1/1000360417/timeline?gameHash=33754e5060541a7e'
+    timeline_url = 'https://acs.leagueoflegends.com/v1/stats/game/TRLH1/1001080068/timeline?gameHash=86b3fe64916e9424'
 
-    stat_url = 'https://acs.leagueoflegends.com/v1/stats/game/TRLH1/1000360417?gameHash=33754e5060541a7e'
+    stat_url = 'https://acs.leagueoflegends.com/v1/stats/game/TRLH1/1001080068?gameHash=86b3fe64916e9424'
 
     # Get timeline data
     f = requests.get(timeline_url)
