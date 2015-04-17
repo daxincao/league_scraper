@@ -1,11 +1,11 @@
-;assists;deaths;goldEarned;kills;participantId;summonerName;totalMinionsKilled
-0;12;5;16324;4;1;C9 Balls;251
-1;6;1;15927;6;2;C9 Meteos;92
-2;10;5;19339;6;3;C9 Hai;384
-3;7;2;17437;3;4;C9 Sneaky;335
-4;14;2;12849;0;5;C9 LemonNation;51
-5;9;5;18321;3;6;NWS Save;350
-6;5;4;14108;3;7;NWS Watch;61
-7;8;1;20937;6;8;NWS Ggoong;447
-8;8;3;15947;2;9;NWS Zefa;264
-9;12;6;12191;1;10;NWS GorillA;16
+;assists;deaths;goldEarned;kills;participantId;summonerName;teamId;totalMinionsKilled
+0;11;2;11818;0;1;TSM Dyrus;100;141
+1;7;0;14167;2;2;TSM Santorin;100;58
+2;3;1;17415;2;3;TSM Bjergsen;100;406
+3;2;1;18476;9;4;TSM WildTurtle;100;369
+4;8;1;9702;1;5;TSM Lustboy;100;28
+5;2;3;11267;0;6;CLG ZionSpartan;200;236
+6;2;3;12187;2;7;CLG Xmithie;200;40
+7;3;3;12762;1;8;CLG Link;200;290
+8;1;2;16301;2;9;CLG Doublelift;200;395
+9;3;3;7681;0;10;CLG aphromoo;200;20

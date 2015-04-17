@@ -1,0 +1,45 @@
+type;timestamp;summonerName;teamId;killerId;victimId;assistingParticipantIds;towerType;laneType;monsterType;position
+CHAMPION_KILL;228277;;;TSM WildTurtle;CLG ZionSpartan;['TSM Santorin', 'TSM Lustboy'];;;;{u'y': 14045, u'x': 4169}
+BUILDING_KILL;276571;CLG Doublelift;100.0;;;;OUTER_TURRET;BOT_LANE;;{u'y': 1029, u'x': 10504}
+ELITE_MONSTER_KILL;389364;CLG Xmithie;200.0;;;;;;DRAGON;{u'y': 4414, u'x': 9866}
+BUILDING_KILL;565651;TSM WildTurtle;200.0;;;;OUTER_TURRET;TOP_LANE;;{u'y': 13875, u'x': 4318}
+CHAMPION_KILL;713088;;;CLG Xmithie;TSM Dyrus;[];;;;{u'y': 7883, u'x': 1556}
+BUILDING_KILL;745584;;200.0;;;;OUTER_TURRET;BOT_LANE;;{u'y': 4505, u'x': 13866}
+BUILDING_KILL;752506;;100.0;;;;OUTER_TURRET;TOP_LANE;;{u'y': 10441, u'x': 981}
+ELITE_MONSTER_KILL;773847;TSM WildTurtle;100.0;;;;;;DRAGON;{u'y': 4414, u'x': 9866}
+CHAMPION_KILL;929287;;;CLG Link;TSM Dyrus;['CLG Xmithie'];;;;{u'y': 1540, u'x': 6659}
+CHAMPION_KILL;932768;;;TSM Santorin;CLG Link;['TSM Dyrus'];;;;{u'y': 1088, u'x': 7507}
+BUILDING_KILL;994223;TSM WildTurtle;200.0;;;;OUTER_TURRET;MID_LANE;;{u'y': 8510, u'x': 8955}
+ELITE_MONSTER_KILL;1143567;TSM Santorin;100.0;;;;;;DRAGON;{u'y': 4414, u'x': 9866}
+BUILDING_KILL;1416684;CLG Doublelift;100.0;;;;OUTER_TURRET;MID_LANE;;{u'y': 6396, u'x': 5846}
+CHAMPION_KILL;1423694;;;CLG Xmithie;TSM Lustboy;['CLG Link', 'CLG Doublelift', 'CLG aphromoo'];;;;{u'y': 8487, u'x': 5815}
+CHAMPION_KILL;1547886;;;TSM Bjergsen;CLG Xmithie;['TSM Santorin', 'TSM Lustboy'];;;;{u'y': 5666, u'x': 11520}
+CHAMPION_KILL;1558615;;;TSM WildTurtle;CLG aphromoo;['TSM Dyrus', 'TSM Santorin', 'TSM Bjergsen', 'TSM Lustboy'];;;;{u'y': 3665, u'x': 11691}
+CHAMPION_KILL;1559070;;;CLG Doublelift;TSM WildTurtle;['CLG ZionSpartan', 'CLG Link', 'CLG aphromoo'];;;;{u'y': 2893, u'x': 11691}
+ELITE_MONSTER_KILL;1595084;CLG Xmithie;200.0;;;;;;DRAGON;{u'y': 4458, u'x': 9914}
+BUILDING_KILL;1721424;;200.0;;;;INNER_TURRET;TOP_LANE;;{u'y': 13411, u'x': 7943}
+BUILDING_KILL;1727562;CLG Xmithie;100.0;;;;INNER_TURRET;BOT_LANE;;{u'y': 1483, u'x': 6919}
+ELITE_MONSTER_KILL;1856028;TSM Santorin;100.0;;;;;;BARON_NASHOR;{u'y': 10471, u'x': 5007}
+BUILDING_KILL;1985417;TSM WildTurtle;200.0;;;;INNER_TURRET;BOT_LANE;;{u'y': 8226, u'x': 13327}
+ELITE_MONSTER_KILL;2010936;TSM Santorin;100.0;;;;;;DRAGON;{u'y': 4414, u'x': 9866}
+BUILDING_KILL;2024183;;100.0;;;;INNER_TURRET;MID_LANE;;{u'y': 4812, u'x': 5048}
+CHAMPION_KILL;2026689;;;TSM Bjergsen;CLG Xmithie;[];;;;{u'y': 6246, u'x': 7314}
+CHAMPION_KILL;2027597;;;TSM WildTurtle;CLG Link;['TSM Dyrus', 'TSM Santorin', 'TSM Lustboy'];;;;{u'y': 5502, u'x': 5946}
+CHAMPION_KILL;2029871;;;TSM Santorin;CLG ZionSpartan;['TSM Dyrus', 'TSM WildTurtle', 'TSM Lustboy'];;;;{u'y': 5087, u'x': 5489}
+CHAMPION_KILL;2036103;;;TSM Lustboy;CLG aphromoo;['TSM Dyrus', 'TSM Santorin', 'TSM WildTurtle'];;;;{u'y': 7076, u'x': 4749}
+CHAMPION_KILL;2054217;;;TSM WildTurtle;CLG Doublelift;['TSM Dyrus', 'TSM Santorin'];;;;{u'y': 10824, u'x': 3055}
+BUILDING_KILL;2063070;TSM Bjergsen;200.0;;;;INNER_TURRET;MID_LANE;;{u'y': 10113, u'x': 9767}
+BUILDING_KILL;2074785;TSM Bjergsen;200.0;;;;BASE_TURRET;MID_LANE;;{u'y': 11207, u'x': 11134}
+BUILDING_KILL;2232623;TSM WildTurtle;200.0;;;;UNDEFINED_TURRET;MID_LANE;;{u'y': 11667, u'x': 11598}
+ELITE_MONSTER_KILL;2351198;TSM Santorin;100.0;;;;;;BARON_NASHOR;{u'y': 10471, u'x': 5007}
+ELITE_MONSTER_KILL;2382756;TSM Santorin;100.0;;;;;;DRAGON;{u'y': 4414, u'x': 9866}
+BUILDING_KILL;2430195;;200.0;;;;BASE_TURRET;BOT_LANE;;{u'y': 10572, u'x': 13624}
+CHAMPION_KILL;2436185;;;TSM WildTurtle;CLG Xmithie;['TSM Dyrus', 'TSM Santorin', 'TSM Bjergsen', 'TSM Lustboy'];;;;{u'y': 11236, u'x': 13239}
+BUILDING_KILL;2441995;TSM Bjergsen;200.0;;;;UNDEFINED_TURRET;BOT_LANE;;{u'y': 11316, u'x': 13604}
+CHAMPION_KILL;2450747;;;CLG Doublelift;TSM Bjergsen;['CLG ZionSpartan', 'CLG Xmithie', 'CLG Link', 'CLG aphromoo'];;;;{u'y': 11105, u'x': 12979}
+CHAMPION_KILL;2453342;;;TSM WildTurtle;CLG Link;['TSM Dyrus', 'TSM Bjergsen'];;;;{u'y': 11467, u'x': 13222}
+CHAMPION_KILL;2453342;;;TSM WildTurtle;CLG aphromoo;['TSM Dyrus'];;;;{u'y': 11242, u'x': 13262}
+CHAMPION_KILL;2459634;;;TSM WildTurtle;CLG Doublelift;['TSM Dyrus', 'TSM Lustboy'];;;;{u'y': 11080, u'x': 13999}
+BUILDING_KILL;2467389;TSM WildTurtle;200.0;;;;NEXUS_TURRET;MID_LANE;;{u'y': 12612, u'x': 13052}
+CHAMPION_KILL;2470553;;;TSM WildTurtle;CLG ZionSpartan;['TSM Dyrus', 'TSM Lustboy'];;;;{u'y': 11885, u'x': 13066}
+BUILDING_KILL;2477214;TSM WildTurtle;200.0;;;;NEXUS_TURRET;MID_LANE;;{u'y': 13084, u'x': 12611}

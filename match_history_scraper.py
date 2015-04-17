@@ -157,6 +157,7 @@ class eventScraper(object):
         self.events = self.getEvents()
         self.monsterKills = self.getMonsterKills()
         self.buildingKills = self.getBuildingKills()
+        self.championKills = self.getChampionKills()
 
 
     def getFrames(self, timeLine):
@@ -188,8 +189,55 @@ class eventScraper(object):
             how='left')[keep_columns].sort('timestamp')
 
     def getChampionKills(self):
-        keep_columns = ['timestamp','type']
-        buildingKills = pd.DataFrame([i for i in self.events if i['type'] == 'CHAMPION_KILL'])
+        keep_columns = ['timestamp', 'type', 'killerId', 'victimId', 'assistingParticipantIds', 'position']
+        championKills = pd.DataFrame([self.lookup_kill_ids(event) for event in self.events if event['type'] == 'CHAMPION_KILL'])
+        return championKills[keep_columns]
+
+    def lookupId(self, id_val):
+        """
+        Helper function to getChampionKills
+        :param id_val: id to lookup
+        :param lookup_frame: lookup frame
+        :return: string
+        """
+
+        return self.stats.loc[self.stats['participantId'] == id_val].iloc[0]['summonerName']
+
+    def lookup_kill_ids(self, event):
+        '''
+        Helper function to getChampionKills
+        Replaces all the ids in an event with summoner names
+        :param event:
+        :return: event
+        '''
+        new_event = {}
+        new_event['killerId'] = self.lookupId(event['killerId'])
+        new_event['victimId'] = self.lookupId(event['victimId'])
+        new_event['assistingParticipantIds'] = [self.lookupId(id) for id in event['assistingParticipantIds']]
+        new_event['timestamp'] = event['timestamp']
+        new_event['position'] = event['position']
+        new_event['type'] = event['type']
+
+        return new_event
+
+
+
+def full_timeline(timeline_data):
+
+    participant_timelines = []
+
+    for i in range(1,11):
+
+        p = participantTimelines(timeline_data, i)
+
+        p_timeline = pd.merge(left=p.participantTimelineDf,
+                              right=p.participantKDA,
+                              on='timestamp')
+
+        #print p_timeline
+        participant_timelines.append(p_timeline)
+
+    return pd.concat(participant_timelines)
 
 
 
@@ -221,49 +269,27 @@ if __name__ == '__main__':
     # Write to csv
     stats_full.to_csv('sample_stats.csv', sep=';')
 
-    # Get sample timeline data for player 1
-    p1 = participantTimelines(timeline_data, 1)
-
-    p1_timeline_data_kda = p1.participantKDA
-
-    p1_timeline_data_gold = p1.participantTimelineDf
-
-    timeline_full =  pd.merge(left=p1_timeline_data_gold,right=p1_timeline_data_kda,on='timestamp')
-
-    timeline_full.to_csv('sample_timeline.csv', sep=';')
 
 
-    # Test class
+    # Get timeline data for all players
+    timeline_full = full_timeline(timeline_data)
+
+    timeline_full_merged = pd.merge(left=timeline_full,
+                                    right=stats_full[['participantId', 'summonerName']],
+                                    on='participantId')
+
+    timeline_full_merged.to_csv('sample_timeline.csv', sep=';')
+
+
+    # Print out events
 
     test = eventScraper(timeline_data, match_data)
 
     print test.buildingKills
     print test.monsterKills
+    print test.championKills
 
-    pd.concat([test.buildingKills, test.monsterKills]).sort('timestamp')
-
-
-
-    monsterKills = pd.DataFrame([i for i in test.events if i['type']=='ELITE_MONSTER_KILL'])
-
-    print list(monsterKills.columns)
-
-    pd.merge(monsterKills, stats_full, left_on='killerId', right_on='participantId', how = 'left')[['timestamp','monsterType','killerId','summonerName']].sort('timestamp')
-    pd.DataFrame(monsterKills)
-    for m in monsterKills:
-        print m
+    order = ['type', 'timestamp', 'summonerName', 'teamId', 'killerId', 'victimId', 'assistingParticipantIds', 'towerType', 'laneType', 'monsterType', 'position']
+    pd.concat([test.buildingKills, test.monsterKills, test.championKills])[order].sort('timestamp').to_csv('sample_events.csv', sep=';', index=False)
 
 
-    championKills = [i for i in test.events if i['type'] == 'CHAMPION_KILL']
-
-    for b in championKills:
-        print b
-    'killerId'
-    'towerType'
-    'laneType'
-    'assistingParticipantIds'
-    'timestamp'
-
-    set(event['type'] for event in test.events)
-
-    test.frames[1]['events']
